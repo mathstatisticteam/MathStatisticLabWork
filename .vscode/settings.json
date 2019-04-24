@@ -5,6 +5,5 @@
     "crossorigin",
     "describedby",
     "endblock"
-  ],
-  "git.ignoreLimitWarning": true
+  ]
 }

@@ -84,19 +84,17 @@
   <h4 class="text-center">Медіана - {{ median }}</h4>
 
   <h2 class="text-center">Емпірична функція розподілу</h2>
-  <h3>
+  <h5>
     \[
       F^{*}(x) = \left\{\begin{matrix}
         0\ \ при \ \ x \ \leq \ {{st[0].x}} \\
-
         {% for i in range(0, st|length-1) %}
-          {{st[i].w_nak}}\ \ при \ \ {{st[i].x}} \ < x \ \leq {{st[i+1].x}} \\
+        {{st[i].w_nak}}\ \ при \ \ {{st[i].x}} \ < x \ \leq {{st[i+1].x}} \\
         {% endfor %}
-
         1\ \ при \ \ x \ > \ {{st[st|length-1].x}}
       \end{matrix}\right.
     \]
-    </h3>
+    </h5>
 
     <h2 class="text-center">Графік емпіричної функції розподілу</h2>
     {{ plot_5.div|indent(4)|safe }}
