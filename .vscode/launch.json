@@ -10,7 +10,7 @@
       "request": "launch",
       "module": "flask",
       "env": {
-        "FLASK_APP": "MathStatisticLabWork.webapp"
+        "FLASK_APP": "app.webapp"
       },
       "args": [
         "run",
