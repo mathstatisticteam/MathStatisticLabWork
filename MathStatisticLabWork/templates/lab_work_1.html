@@ -1,0 +1,21 @@
+{% extends "layout.html" %} 
+{% block page_css_js %}
+{% endblock %} 
+{% block title %} Lab work 1 {% endblock %} 
+{% block content %}
+12 19 7 11 10 -2 5 19 13 5 1 1 13 17 1.5 17 0 2 10 -2 -1 12 -1 11 22 15 4 22 4 21 4 0 3 7 8 21 17 0 12 8
+<form action="/lab_work_1" method="post" class="mt-2">
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      name="items"
+      class="form-control"
+      placeholder="x y"
+      autocomplete="off"
+    />
+    <div class="input-group-append">
+      <button class="btn btn-outline-success" type="submit">Button</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

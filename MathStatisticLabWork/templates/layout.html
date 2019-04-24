@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link
+      id="theme-link"
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bootstrap.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/main.css')}}"
+    />
+    <!-- <script
+      type="text/javascript"
+      async
+      src="/static/js/MathJax.js?config=TeX-MML-AM_CHTML"
+    ></script> -->
+    <script
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+    ></script>
+    {% block page_css_js %}{% endblock %}
+  </head>
+  <body>
+    <div class="container text-center">
+      {% block content %} {% endblock %}
+    </div>
+    <script>
+      window.theme = 'light';
+
+      function changeTheme() {
+        let link = document.querySelector('#theme-link');
+
+        if (link && theme === 'light') {
+          link.href = `{{ url_for('static', filename='css/dark.css')}}`;
+          theme = 'dark';
+        } else if (link) {
+          link.href = `{{ url_for('static', filename='css/bootstrap.min.css')}}`;
+          theme = 'light';
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "python.linting.pylintEnabled": true,
+  "cSpell.words": [
+    "bokeh",
+    "crossorigin",
+    "describedby",
+    "endblock"
+  ],
+  "git.ignoreLimitWarning": true
+}
