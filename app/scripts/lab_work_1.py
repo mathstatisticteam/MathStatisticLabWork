@@ -1,13 +1,20 @@
 import operator
 import statistics
+
+import numpy as np
 from bokeh.embed import components
-from bokeh.models import ColumnDataSource, LabelSet, Arrow, NormalHead, Span
+from bokeh.models import Arrow, ColumnDataSource, LabelSet, NormalHead, Span
 from bokeh.plotting import figure
 from bokeh.resources import INLINE
 from bokeh.util.string import encode_utf8
 from flask import redirect, render_template, request, url_for
 
-from . import app
+from app import app
+
+
+def to_int_if_can(num):
+    num = float(num)
+    return int(num) if (num).is_integer() else num
 
 
 def get_figure(x, y, x_axis_label, y_axis_label):
@@ -19,12 +26,28 @@ def get_figure(x, y, x_axis_label, y_axis_label):
         x_axis_label=x_axis_label,
         y_axis_label=y_axis_label
     )
-    labels = LabelSet(x='x', y='y', text='y', level='glyph',
-                      x_offset=-15, y_offset=8, source=source, render_mode='canvas')
+    labels = LabelSet(
+        x='x',
+        y='y',
+        text='y',
+        level='glyph',
+        x_offset=-15,
+        y_offset=8,
+        source=source,
+        render_mode='canvas',
+        text_font_size="8pt"
+    )
     fig.add_layout(labels)
     fig.line(x='x', y='y', line_color="blue", source=source, line_width=2)
-    fig.circle(x='x', y='y', fill_color="blue",
-               line_color="blue", size=8, source=source)
+    fig.circle(
+        x='x',
+        y='y',
+        fill_color="blue",
+        line_color="blue",
+        size=8,
+        source=source
+    )
+    fig.yaxis.fixed_location = 0
 
     return fig
 
@@ -42,7 +65,7 @@ def get_empirical_figure(x, y, data):
     fig.circle(x=x, y=y, fill_alpha=0)
 
     for i in range(0, len(data)):
-        x=data[i+1].get('x') if i != len(data)-1 else data[i].get('x')+1
+        x = data[i+1].get('x') if i != len(data)-1 else data[i].get('x')+1
         fig.add_layout(Arrow(
             end=NormalHead(size=10, fill_color="blue"),
             line_color="blue",
@@ -58,6 +81,8 @@ def get_empirical_figure(x, y, data):
             line_dash='dashed', line_width=1
         ))
 
+    fig.yaxis.fixed_location = 0
+
     return fig
 
 
@@ -68,18 +93,22 @@ def bokehPost():
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
-    items = list(map(float, request.form["items"].split(' ')))
+    items = list(map(to_int_if_can, request.form["items"].split(' ')))
     items.sort()
 
     res = {x: items.count(x) for x in items}
-    mode = [str(k) for k, v in res.items() if v == max(res.values())]
+    mode = [k for k, v in res.items() if v == max(res.values())]
     median = statistics.median(items)
 
     for x in res:
         cnt = cnt + res[x]
-        w_nak = round(cnt / len(items), 2)
-        st.append({'x': x, 'n': res[x], 'w': round(
-            res[x] / len(items), 2), 'n_nak': cnt, 'w_nak': w_nak})
+        w_nak = round(cnt / len(items), 3)
+        st.append({
+            'x': x,
+            'n': res[x],
+            'w': round(res[x] / len(items), 3),
+            'n_nak': cnt, 'w_nak': w_nak
+        })
 
     x = [s.get('x') for s in st]
 
@@ -98,7 +127,7 @@ def bokehPost():
     fig4 = get_figure(x, [s.get('w_nak') for s in st], 'X', 'W нак')
     plot_4 = {}
     plot_4['script'], plot_4['div'] = components(fig4)
-    
+
     fig5 = get_empirical_figure(x, [s.get('w_nak') for s in st], st)
     plot_5 = {}
     plot_5['script'], plot_5['div'] = components(fig5)
@@ -106,8 +135,8 @@ def bokehPost():
     html = render_template(
         'lab_work_1_res.html',
         sum=0,
-        mode=", ".join(mode),
-        median=median,
+        mode=", ".join([str(m) for m in mode]),
+        median=to_int_if_can(median),
         items=items,
         st=st,
         plot_1=plot_1,

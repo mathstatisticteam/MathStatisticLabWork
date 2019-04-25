@@ -1,2 +1,2 @@
-from . import app    # For application discovery by the 'flask' command.
-from . import lab_work_1
+from app import app
+from app.scripts import lab_work_1

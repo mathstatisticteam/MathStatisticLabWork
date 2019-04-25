@@ -2,8 +2,15 @@
   "python.linting.pylintEnabled": true,
   "cSpell.words": [
     "bokeh",
+    "chdir",
     "crossorigin",
     "describedby",
-    "endblock"
-  ]
+    "endblock",
+    "gunicorn",
+    "numpy",
+    "webapp",
+    "xaxis",
+    "yaxis"
+  ],
+  "python.pythonPath": "env\\Scripts\\python.exe"
 }
