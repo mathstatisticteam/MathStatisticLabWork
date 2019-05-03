@@ -4,18 +4,5 @@
 {% block title %} Lab work 1 {% endblock %} 
 {% block content %}
 12 -2 1 17 -1 15 4 21 19 5 1 0 12 4 0 17 7 19 13 2 -1 22 3 0 11 13 17 10 11 4 7 12 10 5 1.5 -2 22 21 8 8
-<form action="/lab_work_1" method="post" class="mt-2">
-  <div class="input-group mb-3">
-    <input
-      type="text"
-      name="items"
-      class="form-control"
-      placeholder="x y"
-      autocomplete="off"
-    />
-    <div class="input-group-append">
-      <button class="btn btn-outline-success" type="submit">Button</button>
-    </div>
-  </div>
-</form>
+{% include 'input_form.html' %}
 {% endblock %}

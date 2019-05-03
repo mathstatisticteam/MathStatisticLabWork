@@ -1,7 +1,6 @@
 import operator
 import statistics
 
-import numpy as np
 from bokeh.embed import components
 from bokeh.models import Arrow, ColumnDataSource, LabelSet, NormalHead, Span
 from bokeh.plotting import figure
@@ -10,11 +9,7 @@ from bokeh.util.string import encode_utf8
 from flask import redirect, render_template, request, url_for
 
 from app import app
-
-
-def to_int_if_can(num):
-    num = float(num)
-    return int(num) if (num).is_integer() else num
+from app.scripts.helpers import *
 
 
 def get_figure(x, y, x_axis_label, y_axis_label):
@@ -93,10 +88,8 @@ def bokehPost():
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
-    items = list(map(to_int_if_can, request.form["items"].split(' ')))
-    items.sort()
+    items, res = get_input_data()
 
-    res = {x: items.count(x) for x in items}
     mode = [k for k, v in res.items() if v == max(res.values())]
     median = statistics.median(items)
 

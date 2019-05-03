@@ -1,0 +1,28 @@
+<form action="/lab_work_1" method="post">
+  <div class="form-row align-items-center">
+    <div class="col-6 my-1">
+      <textarea
+        autocomplete="off"
+        name="items"
+        class="form-control"
+        rows="1"
+      ></textarea>
+    </div>
+    <div class="col-auto my-1">
+      <select class="form-control" name="input_type">
+        <option value="some_data">Емпіричні дані</option>
+        <option value="stat_distr">Статистичний розподіл</option>
+      </select>
+    </div>
+    <div class="col-auto my-1">
+      <select class="form-control" name="separator">
+        <option value="space">Пробіл</option>
+        <option value="coma">Кома</option>
+        <option value="semicolon">Крапка з комою</option>
+      </select>
+    </div>
+    <div class="col-auto my-1">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>

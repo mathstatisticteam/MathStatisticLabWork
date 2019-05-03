@@ -6,25 +6,15 @@
 {{ plot_3.script|indent(4)|safe }}
 {{ plot_4.script|indent(4)|safe }}
 {{ plot_5.script|indent(4)|safe }}
-{% endblock %} {% block title %} Lab work 1 {% endblock %} {% block content %} 12 19 7 11
-10 -2 5 19 13 5 1 1 13 17 1.5 17 0 2 10 -2 -1 12 -1 11 22 15 4 22 4 21 4 0 3 7 8 21 17 0
-12 8
-<form action="/lab_work_1" method="post" class="mt-2">
-  <div class="input-group mb-3">
-    <input
-      type="text"
-      name="items"
-      class="form-control"
-      placeholder="x y"
-      autocomplete="off"
-    />
-    <div class="input-group-append">
-      <button class="btn btn-outline-success" type="submit">Button</button>
-    </div>
-  </div>
-</form>
+{% endblock %} {% block title %} Lab work 1 {% endblock %} {% block content %}
+<span>
+  12 -2 1 17 -1 15 4 21 19 5 1 0 12 4 0 17 7 19 13 2 -1 22 3 0 11 13 17 10 11 4
+  7 12 10 5 1.5 -2 22 21 8 8
+</span>
+{% include 'input_form.html' %}
 <div class="mb-3">
   <h2 class="text-center">Варіаційний ряд</h2>
+  <h4 class="text-center">Кількість елементів - {{ items | length }}</h4>
   <table class="table table-responsive w-100">
     <tbody>
       <tr>
@@ -85,18 +75,14 @@
 
   <h2 class="text-center">Емпірична функція розподілу</h2>
   <h5>
-    \[
-      F^{*}(x) = \left\{\begin{matrix}
-        0\ \ при \ \ x \ \leq \ {{st[0].x}} \\
-        {% for i in range(0, st|length-1) %}
-        {{st[i].w_nak}}\ \ при \ \ {{st[i].x}} \ < x \ \leq {{st[i+1].x}} \\
-        {% endfor %}
-        1\ \ при \ \ x \ > \ {{st[st|length-1].x}}
-      \end{matrix}\right.
-    \]
-    </h5>
+    \[ F^{*}(x) = \left\{\begin{matrix} 0\ \ при \ \ x \ \leq \ {{ st[0].x }} \\
+    {% for i in range(0, st|length-1) %} {{ st[i].w_nak }}\ \ при \ \
+    {{ st[i].x }} \ < x \ \leq {{ st[i + 1].x }} \\ {% endfor %} 1\ \ при \ \ x
+    \ > \ {{st[st|length-1].x}}
+    \end{matrix}\right. \]
+  </h5>
 
-    <h2 class="text-center">Графік емпіричної функції розподілу</h2>
-    {{ plot_5.div|indent(4)|safe }}
+  <h2 class="text-center">Графік емпіричної функції розподілу</h2>
+  {{ plot_5.div|indent(4)|safe }}
 </div>
 {% endblock %}
