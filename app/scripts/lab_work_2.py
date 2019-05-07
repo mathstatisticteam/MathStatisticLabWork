@@ -112,6 +112,12 @@ def lab_work_2_post():
     plot_2 = {}
     plot_2['script'], plot_2['div'] = components(fig2)
 
+    x = [s.get('i')[1] for s in sti]
+
+    fig3 = get_figure(x, [e.get('w_nak') for e in sti], 'X', 'F*(x)')
+    plot_3 = {}
+    plot_3['script'], plot_3['div'] = components(fig3)
+
     html = render_template(
         'lab_work_2/lab_work_2_res.html',
         action_url='/lab_work_2',
@@ -123,6 +129,7 @@ def lab_work_2_post():
         sti=sti,
         plot_1=plot_1,
         plot_2=plot_2,
+        plot_3=plot_3,
         js_resources=js_resources,
         css_resources=css_resources,
     )

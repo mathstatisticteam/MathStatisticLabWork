@@ -12,41 +12,6 @@ from app import app
 from app.scripts.helpers import *
 
 
-def get_figure(x, y, x_axis_label, y_axis_label):
-    source = ColumnDataSource(data=dict(x=x, y=y))
-
-    fig = figure(
-        height=600,
-        sizing_mode='stretch_width',
-        x_axis_label=x_axis_label,
-        y_axis_label=y_axis_label
-    )
-    labels = LabelSet(
-        x='x',
-        y='y',
-        text='y',
-        level='glyph',
-        x_offset=-15,
-        y_offset=8,
-        source=source,
-        render_mode='canvas',
-        text_font_size="8pt"
-    )
-    fig.add_layout(labels)
-    fig.line(x='x', y='y', line_color="blue", source=source, line_width=2)
-    fig.circle(
-        x='x',
-        y='y',
-        fill_color="blue",
-        line_color="blue",
-        size=8,
-        source=source
-    )
-    fig.yaxis.fixed_location = 0
-
-    return fig
-
-
 def get_empirical_figure(x, y, data):
     fig = figure(
         height=600,
