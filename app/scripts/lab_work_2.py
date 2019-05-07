@@ -112,9 +112,14 @@ def lab_work_2_post():
     plot_2 = {}
     plot_2['script'], plot_2['div'] = components(fig2)
 
-    x = [s.get('i')[1] for s in sti]
+    x = [sti[0].get('i')[0]]
+    y = [0]
+    for e in sti:
+        x.append(e.get('i')[1])
+    for e in sti:
+        y.append(e.get('w_nak'))
 
-    fig3 = get_figure(x, [e.get('w_nak') for e in sti], 'X', 'F*(x)')
+    fig3 = get_figure(x, y, 'X', 'F*(x)')
     plot_3 = {}
     plot_3['script'], plot_3['div'] = components(fig3)
 
