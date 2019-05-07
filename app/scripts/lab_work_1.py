@@ -82,9 +82,7 @@ def get_empirical_figure(x, y, data):
 
 
 @app.route('/lab_work_1', methods=['POST'])
-def bokehPost():
-    st = []
-    cnt = w_nak = 0
+def lab_work_1_post():
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
@@ -93,15 +91,7 @@ def bokehPost():
     mode = [k for k, v in res.items() if v == max(res.values())]
     median = statistics.median(items)
 
-    for x in res:
-        cnt = cnt + res[x]
-        w_nak = round(cnt / len(items), 3)
-        st.append({
-            'x': x,
-            'n': res[x],
-            'w': round(res[x] / len(items), 3),
-            'n_nak': cnt, 'w_nak': w_nak
-        })
+    st = get_stat_distr(res)
 
     x = [s.get('x') for s in st]
 
@@ -126,8 +116,8 @@ def bokehPost():
     plot_5['script'], plot_5['div'] = components(fig5)
 
     html = render_template(
-        'lab_work_1_res.html',
-        sum=0,
+        'lab_work_1/lab_work_1_res.html',
+        action_url='/lab_work_1',
         mode=", ".join([str(m) for m in mode]),
         median=to_int_if_can(median),
         items=items,
@@ -144,6 +134,9 @@ def bokehPost():
 
 
 @app.route('/lab_work_1', methods=['GET'])
-def bokehGet():
-    html = render_template('lab_work_1.html')
+def lab_work_1_get():
+    html = render_template(
+        'lab_work_1/lab_work_1.html',
+        action_url='/lab_work_1'
+    )
     return encode_utf8(html)

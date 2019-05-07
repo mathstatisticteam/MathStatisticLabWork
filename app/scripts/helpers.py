@@ -30,3 +30,21 @@ def get_input_data():
     res = {x: items.count(x) for x in items}
 
     return [items, res]
+
+
+def get_stat_distr(arr):
+    st = []
+    cnt = w_nak = 0
+
+    for x in arr:
+        cnt = cnt + arr[x]
+        w_nak = round(cnt / len(arr), 3)
+        st.append({
+            'x': x,
+            'n': arr[x],
+            'w': round(arr[x] / len(arr), 3),
+            'n_nak': cnt,
+            'w_nak': w_nak
+        })
+    
+    return st

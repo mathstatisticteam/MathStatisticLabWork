@@ -11,55 +11,21 @@
   12 -2 1 17 -1 15 4 21 19 5 1 0 12 4 0 17 7 19 13 2 -1 22 3 0 11 13 17 10 11 4
   7 12 10 5 1.5 -2 22 21 8 8
 </span>
-{% include 'input_form.html' %}
+{% include 'components/input_form.html' %}
 <div class="mb-3">
-  <h2 class="text-center">Варіаційний ряд</h2>
-  <h4 class="text-center">Кількість елементів - {{ items | length }}</h4>
-  <table class="table table-responsive w-100">
-    <tbody>
-      <tr>
-        {% for item in items %}
-        <td>{{ item }}</td>
-        {% endfor %}
-      </tr>
-    </tbody>
-  </table>
+	<h2 class="text-center">Варіаційний ряд</h2>
+	<h4 class="text-center">Кількість елементів - {{ items | length }}</h4>
+	<table class="table table-responsive w-100">
+		<tbody>
+			<tr>
+				{% for item in items %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
 
-  <h2 class="text-center">Статистичний розподіл</h2>
-  <table class="table table-responsive w-100">
-    <tbody class="w-100">
-      <tr>
-        <th scope="row">X<sub>i</sub></th>
-        {% for item in st %}
-        <td>{{ item.x }}</td>
-        {% endfor %}
-      </tr>
-      <tr>
-        <th scope="row">N<sub>i</sub></th>
-        {% for item in st %}
-        <td>{{ item.n }}</td>
-        {% endfor %}
-      </tr>
-      <tr>
-        <th scope="row">W<sub>i</sub></th>
-        {% for item in st %}
-        <td>{{ item.w }}</td>
-        {% endfor %}
-      </tr>
-      <tr>
-        <th scope="row">N<sub>i</sub><sup>нак</sup></th>
-        {% for item in st %}
-        <td>{{ item.n_nak }}</td>
-        {% endfor %}
-      </tr>
-      <tr>
-        <th scope="row">W<sub>i</sub><sup>нак</sup></th>
-        {% for item in st %}
-        <td>{{ item.w_nak }}</td>
-        {% endfor %}
-      </tr>
-    </tbody>
-  </table>
+	{% include 'components/statistical_distr_table.html' %}
 
   <h2 class="text-center">Полігон частот</h2>
   {{ plot_1.div|indent(4)|safe }}

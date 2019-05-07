@@ -1,0 +1,35 @@
+<h2 class="text-center">Статистичний розподіл</h2>
+<table class="table table-responsive w-100">
+	<tbody class="w-100">
+		<tr>
+			<th scope="row">X<sub>i</sub></th>
+			{% for item in st %}
+			<td>{{ item.x }}</td>
+			{% endfor %}
+		</tr>
+		<tr>
+			<th scope="row">N<sub>i</sub></th>
+			{% for item in st %}
+			<td>{{ item.n }}</td>
+			{% endfor %}
+		</tr>
+		<tr>
+			<th scope="row">W<sub>i</sub></th>
+			{% for item in st %}
+			<td>{{ item.w }}</td>
+			{% endfor %}
+		</tr>
+		<tr>
+			<th scope="row">N<sub>i</sub><sup>нак</sup></th>
+			{% for item in st %}
+			<td>{{ item.n_nak }}</td>
+			{% endfor %}
+		</tr>
+		<tr>
+			<th scope="row">W<sub>i</sub><sup>нак</sup></th>
+			{% for item in st %}
+			<td>{{ item.w_nak }}</td>
+			{% endfor %}
+		</tr>
+	</tbody>
+</table>
