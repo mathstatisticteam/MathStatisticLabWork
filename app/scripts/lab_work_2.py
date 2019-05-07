@@ -92,31 +92,29 @@ def lab_work_2_post():
         })
 
     src = {'t': [], 'l': [], 'r': []}
+    src2 = {'t': [], 'l': [], 'r': []}
 
     for x in sti:
         src.get('t').append(x.get('n')/h)
         src.get('l').append(x.get('i')[0])
         src.get('r').append(x.get('i')[1])
+        src2.get('t').append(round(x.get('w')/h, 3))
+        src2.get('l').append(x.get('i')[0])
+        src2.get('r').append(x.get('i')[1])
 
     fig1 = get_histogram(h, ColumnDataSource(src))
     plot_1 = {}
     plot_1['script'], plot_1['div'] = components(fig1)
 
-    src2 = ColumnDataSource({
-        't': [round(x.get('w')/h, 3) for x in sti],
-        'l': [x.get('i')[0] for x in sti],
-        'r': [x.get('i')[1] for x in sti]
-    })
-
-    fig2 = get_histogram(h, src2)
+    fig2 = get_histogram(h, ColumnDataSource(src2))
     plot_2 = {}
     plot_2['script'], plot_2['div'] = components(fig2)
 
     x = [sti[0].get('i')[0]]
     y = [0]
+
     for e in sti:
         x.append(e.get('i')[1])
-    for e in sti:
         y.append(e.get('w_nak'))
 
     fig3 = get_figure(x, y, 'X', 'F*(x)')
