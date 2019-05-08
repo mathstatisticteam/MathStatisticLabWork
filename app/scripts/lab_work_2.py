@@ -20,6 +20,15 @@ from app import app
 from app.scripts.helpers import *
 
 
+def calc_mode(x, mid_cnt, prev_cnt, next_cnt, h):
+    return round((
+        x + (
+            (mid_cnt - prev_cnt) /
+            (2 * mid_cnt - prev_cnt - next_cnt) * h
+        )
+    ), 2)
+
+
 def cnt_in_range(list, range, x):
     cnt = 0
     for k, v in list.items():
@@ -71,6 +80,7 @@ def lab_work_2_post():
     h = to_int_if_can(request.form['h'])
 
     interval_mode = {'prev': (None, 0), 'mid': ((), 0), 'next': (None, 0)}
+    modes = []
     median = round(statistics.median_grouped(items, interval=h), 2)
 
     ranges = list(map(to_int_if_can, np.arange(min(items), max(items)+h, h)))
@@ -96,10 +106,13 @@ def lab_work_2_post():
 
     for i in range(0, len(sti)):
         if sti[i]['n'] == max_n:
-            interval_mode['mid'] = (sti[i]['i'], sti[i]['n'])
-            interval_mode['next'] = (sti[i+1]['i'], sti[i+1]['n'])
-            interval_mode['prev'] = (sti[i-1]['i'], sti[i-1]['n'])
-            break
+            modes.append(calc_mode(
+                sti[i]['i'][0],
+                sti[i]['n'],
+                0 if i == 0 else sti[i-1]['n'],
+                sti[i+1]['n'],
+                h
+            ))
 
     src = {'t': [], 'l': [], 'r': []}
     src2 = {'t': [], 'l': [], 'r': []}
@@ -131,19 +144,10 @@ def lab_work_2_post():
     plot_3 = {}
     plot_3['script'], plot_3['div'] = components(fig3)
 
-    mode = (
-        interval_mode['mid'][0][0] +
-        (
-            (interval_mode['mid'][1] - interval_mode['prev'][1]) /
-            (2 * interval_mode['mid'][1] - interval_mode['prev'][1] - interval_mode['next'][1]) *
-            h
-        )
-    )
-
     html = render_template(
         'lab_work_2/lab_work_2_res.html',
         action_url='/lab_work_2',
-        mode=round(mode, 2),
+        mode=', '.join(list(map(str,modes))),
         median=to_int_if_can(median),
         items=items,
         h=h,
