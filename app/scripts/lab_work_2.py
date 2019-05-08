@@ -63,17 +63,16 @@ def get_histogram(h, src):
 @app.route('/lab_work_2', methods=['POST'])
 def lab_work_2_post():
     sti = []
-    cnt = w_nak = 0
+    cnt = w_nak = max_n = 0
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
     items, res = get_input_data()
-
-    mode = [k for k, v in res.items() if v == max(res.values())]
-    median = np.median(items)
-    interval_median = {'min': [], 'max': []}
-
     h = to_int_if_can(request.form['h'])
+
+    interval_mode = {'prev': (None, 0), 'mid': ((), 0), 'next': (None, 0)}
+    median = round(statistics.median_grouped(items, interval=h), 2)
+
     ranges = list(map(to_int_if_can, np.arange(min(items), max(items)+h, h)))
 
     st = get_stat_distr(res)
@@ -84,9 +83,8 @@ def lab_work_2_post():
         cnt = cnt + n
         w_nak = round(cnt / len(items), 3)
 
-        if interval[0] < median and interval[1] > median:
-            interval_median['min'] = [interval[0], sti[x-1].get('w_nak')]
-            interval_median['max'] = [interval[1], w_nak]
+        if max_n <= n:
+            max_n = n
 
         sti.append({
             'i': interval,
@@ -95,6 +93,13 @@ def lab_work_2_post():
             'n_nak': cnt,
             'w_nak': w_nak
         })
+
+    for i in range(0, len(sti)):
+        if sti[i]['n'] == max_n:
+            interval_mode['mid'] = (sti[i]['i'], sti[i]['n'])
+            interval_mode['next'] = (sti[i+1]['i'], sti[i+1]['n'])
+            interval_mode['prev'] = (sti[i-1]['i'], sti[i-1]['n'])
+            break
 
     src = {'t': [], 'l': [], 'r': []}
     src2 = {'t': [], 'l': [], 'r': []}
@@ -126,17 +131,19 @@ def lab_work_2_post():
     plot_3 = {}
     plot_3['script'], plot_3['div'] = components(fig3)
 
-    median = (
-        interval_median['min'][0] + 
-        (0.5 - interval_median['min'][1]) / 
-        (interval_median['max'][1] - interval_median['min'][1]) *
-        h
+    mode = (
+        interval_mode['mid'][0][0] +
+        (
+            (interval_mode['mid'][1] - interval_mode['prev'][1]) /
+            (2 * interval_mode['mid'][1] - interval_mode['prev'][1] - interval_mode['next'][1]) *
+            h
+        )
     )
 
     html = render_template(
         'lab_work_2/lab_work_2_res.html',
         action_url='/lab_work_2',
-        mode=", ".join([str(m) for m in mode]),
+        mode=round(mode, 2),
         median=to_int_if_can(median),
         items=items,
         h=h,
