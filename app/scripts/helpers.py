@@ -21,7 +21,7 @@ def get_input_data():
             map(to_int_if_can, request.form['items'].split(separator))
         )
     elif input_type == 'stat_distr':
-        data = request.form['items'].split(separator)
+        data = request.form['items'].strip(' ').split(separator)
         items = sum([
             [k for x in range(v)] for k, v in {
                 to_int_if_can(x.split(':')[0]): int(x.split(':')[1]) for x in data

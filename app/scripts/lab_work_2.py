@@ -70,7 +70,8 @@ def lab_work_2_post():
     items, res = get_input_data()
 
     mode = [k for k, v in res.items() if v == max(res.values())]
-    median = statistics.median(items)
+    median = np.median(items)
+    interval_median = {'min': [], 'max': []}
 
     h = to_int_if_can(request.form['h'])
     ranges = list(map(to_int_if_can, np.arange(min(items), max(items)+h, h)))
@@ -82,6 +83,10 @@ def lab_work_2_post():
         n = cnt_in_range(res, interval, x)
         cnt = cnt + n
         w_nak = round(cnt / len(items), 3)
+
+        if interval[0] < median and interval[1] > median:
+            interval_median['min'] = [interval[0], sti[x-1].get('w_nak')]
+            interval_median['max'] = [interval[1], w_nak]
 
         sti.append({
             'i': interval,
@@ -120,6 +125,13 @@ def lab_work_2_post():
     fig3 = get_figure(x, y, 'X', 'F*(x)')
     plot_3 = {}
     plot_3['script'], plot_3['div'] = components(fig3)
+
+    median = (
+        interval_median['min'][0] + 
+        (0.5 - interval_median['min'][1]) / 
+        (interval_median['max'][1] - interval_median['min'][1]) *
+        h
+    )
 
     html = render_template(
         'lab_work_2/lab_work_2_res.html',
