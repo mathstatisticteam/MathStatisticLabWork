@@ -77,9 +77,8 @@ def lab_work_2_post():
     css_resources = INLINE.render_css()
 
     items, res = get_input_data()
-    h = to_int_if_can(request.form['h'])
+    h = (max(items) - min(items)) / to_int_if_can(request.form['h'])
 
-    interval_mode = {'prev': (None, 0), 'mid': ((), 0), 'next': (None, 0)}
     modes = []
     median = round(statistics.median_grouped(items, interval=h), 2)
 
