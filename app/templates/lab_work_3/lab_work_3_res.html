@@ -1,0 +1,84 @@
+{% extends "layout.html" %} {% block page_css_js %} {% endblock %} {% block
+title %} Lab work 3 {% endblock %} {% block content %} {% include
+'components/input_form.html' %} k =
+<input
+	autocomplete="off"
+	placeholder="1,2,3,4"
+	form="input_form"
+	name="m"
+	type="text"
+/>
+<div class="mb-3">
+	<h2 class="text-center">Варіаційний ряд</h2>
+	<h4 class="text-center">Кількість елементів - {{ items | length }}</h4>
+	<table class="table table-responsive w-100">
+		<tbody>
+			<tr>
+				{% for item in items %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+
+	{% include 'components/statistical_distr_table.html' %}
+
+	<h2>Вибіркове середнє</h2>
+	<h5>
+		\[ \bar{x}_{в}= \frac{1}{n} \sum\limits_{i=1}^{k}{x_{i} n_{i}} = \frac{1}{
+		{{ items | length }} } {{ sel_sum }} = {{ sel_average }} \]
+	</h5>
+
+	<h2>Вибіркова дисперсія</h2>
+	<h5>
+		\[ D_{в} = \frac{1}{n}\sum\limits_{i=1}^{k}{n_{i}(x_{i}-\bar{x}_{в})^{2}}=
+		{{ pvariance }} \]
+	</h5>
+
+	<h2>Середнє квадратичне відхилення</h2>
+	<h5>
+		\[ \sigma_{в} = \sqrt{D_{в}} = \sqrt{ {{ pvariance }} } =
+		{{ pvariance_sqrt }} \]
+	</h5>
+
+	<h2>Виправлена вибіркова дисперсія</h2>
+	<h5>
+		\[ S^{2} = \frac{1}{n-1}\sum\limits_{i=1}^{k}{n_{i}(x_{i}-\bar{x}_{в})^{2}}=
+		{{ variance }} \]
+	</h5>
+
+	<h2>Виправлена cереднє квадратичне відхилення</h2>
+	<h5>
+		\[ \sigma_{в} = \sqrt{S^{2}} = \sqrt{ {{ variance }} } =
+		{{ variance_sqrt }} \]
+	</h5>
+
+	<h2>Початкові емпіричні моменти {{ k }}-го порядку</h2>
+	<h5>
+		{% for e in m %} \[ M^{*}_{ {{ e }} } = \frac{1}{n}
+		\sum\limits_{i=1}^{k}{x_{i}^{ {{ e }} }n_{i}} = \frac{1}{
+		{{ items | length }} } \cdot {{ init_m[e][0] }} = {{ init_m[e][1] }}\] {%
+		endfor %}
+	</h5>
+
+	<h2>Центральні емпіричні моменти {{ k }}-го порядку</h2>
+	<h5>
+		{% for e in m %} \[ m^{*}_{ {{ e }} } = \frac{1}{n}
+		\sum\limits_{i=1}^{k}{(x_{i}-\bar{x}_{в})^{ {{ e }} }n_{i}} = \frac{1}{
+		{{ items | length }} } \cdot {{ mid_m[e][0] }} = {{ mid_m[e][1] }}\] {%
+		endfor %}
+	</h5>
+
+	<h2>Асиметрія</h2>
+	<h5>\[ A_{s}=\frac{m^{*}_{3}}{\sigma^{3}} = {{ A }} \]</h5>
+
+	<h2>Ексцес</h2>
+	<h5>\[ E_{k}=\frac{m^{*}_{4}}{\sigma^{4}}-3 = {{ E }} \]</h5>
+
+	<h2>Розмах</h2>
+	<h5>\[ R=x_{max}-x_{min} = {{ R }} \]</h5>
+
+	<h2>Коефіцієт варіацій</h2>
+	<h5>\[ V=\frac{\sigma_{в}}{\bar{x}_{в}}\cdot 100\% = {{ V }} \% \]</h5>
+</div>
+{% endblock %}

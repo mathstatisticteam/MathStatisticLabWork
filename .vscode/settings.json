@@ -9,6 +9,7 @@
     "endblock",
     "gunicorn",
     "numpy",
+    "pvariance",
     "webapp",
     "xaxis",
     "yaxis"
