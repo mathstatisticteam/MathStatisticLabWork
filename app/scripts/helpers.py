@@ -40,7 +40,7 @@ def get_stat_distr(arr):
 
     for x in arr:
         cnt = cnt + arr[x]
-        w_nak = round(cnt / len(arr), 3)
+        w_nak = round(cnt / sum(arr.values()), 3)
         st.append({
             'x': x,
             'n': arr[x],
