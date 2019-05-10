@@ -65,7 +65,7 @@ def lab_work_3_post():
         mid_m=mid_m,
         k=', '.join(list(map(str, m))),
         R=max(items)-min(items),
-        V=round((sel_average/math.sqrt(pvariance))*100, 3),
+        V=round((math.sqrt(pvariance)/sel_average)*100, 3),
         A=m_3/q_3,
         E=(m_4/q_4)-3,
         pvariance=round(pvariance, 3),
