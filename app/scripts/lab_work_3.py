@@ -50,10 +50,10 @@ def lab_work_3_post():
         ) for x in m
     }
 
-    m3 = get_desper_select_sum(res, sel_average, 3)/len(items)
-    m4 = get_desper_select_sum(res, sel_average, 4)/len(items)
-    q3 = math.pow(math.sqrt(pvariance), 3)
-    q4 = math.pow(math.sqrt(pvariance), 4)
+    m_3 = get_desper_select_sum(res, sel_average, 3)/len(items)
+    m_4 = get_desper_select_sum(res, sel_average, 4)/len(items)
+    q_3 = math.pow(math.sqrt(pvariance), 3)
+    q_4 = math.pow(math.sqrt(pvariance), 4)
 
     html = render_template(
         'lab_work_3/lab_work_3_res.html',
@@ -66,8 +66,8 @@ def lab_work_3_post():
         k=', '.join(list(map(str, m))),
         R=max(items)-min(items),
         V=round((sel_average/math.sqrt(pvariance))*100, 3),
-        A=m3/q3,
-        E=(m3/q3)-3,
+        A=m_3/q_3,
+        E=(m_4/q_4)-3,
         pvariance=round(pvariance, 3),
         variance=round(variance, 3),
         pvariance_sqrt=round(math.sqrt(pvariance), 3),
