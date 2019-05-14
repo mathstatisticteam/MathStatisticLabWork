@@ -8,7 +8,7 @@ def to_int_if_can(num):
     return int(num) if (num).is_integer() else num
 
 
-def get_input_data():
+def get_input_data(field_name = 'items'):
     input_type = request.form['input_type']
     separator = {
         'space': ' ',
@@ -18,10 +18,10 @@ def get_input_data():
 
     if input_type == 'some_data':
         items = list(
-            map(to_int_if_can, request.form['items'].split(separator))
+            map(to_int_if_can, request.form[field_name].split(separator))
         )
     elif input_type == 'stat_distr':
-        data = request.form['items'].strip(' ').split(separator)
+        data = request.form[field_name].strip(' ').split(separator)
         items = sum([
             [k for x in range(v)] for k, v in {
                 to_int_if_can(x.split(':')[0]): int(x.split(':')[1]) for x in data

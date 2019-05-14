@@ -77,7 +77,7 @@ def lab_work_2_post():
     css_resources = INLINE.render_css()
 
     items, res = get_input_data()
-    h = (max(items) - min(items)) / to_int_if_can(request.form['m'])
+    h = round((max(items) - min(items)) / to_int_if_can(request.form['m']), 2)
 
     modes = []
     median = round(statistics.median_grouped(items, interval=h), 2)
@@ -146,7 +146,7 @@ def lab_work_2_post():
     html = render_template(
         'lab_work_2/lab_work_2_res.html',
         action_url='/lab_work_2',
-        mode=', '.join(list(map(str,modes))),
+        mode=', '.join(list(map(str, modes))),
         median=to_int_if_can(median),
         items=items,
         h=h,

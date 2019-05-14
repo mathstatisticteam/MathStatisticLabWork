@@ -1,7 +1,5 @@
 import math
-import operator
 import statistics
-import decimal
 
 import numpy as np
 from bokeh.util.string import encode_utf8

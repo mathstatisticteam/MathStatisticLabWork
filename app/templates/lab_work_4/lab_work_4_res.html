@@ -1,0 +1,63 @@
+{% extends "layout.html" %} {% block page_css_js %} {% endblock %} {% block
+title %} Lab work 4 {% endblock %} {% block content %} {% include
+'components/input_form.html' %}
+<div class="form-row">
+	<div class="col-6 my-1">
+		<textarea
+			autocomplete="off"
+			name="items2"
+			form="input_form"
+			class="form-control"
+			rows="1"
+		></textarea>
+	</div>
+</div>
+<div class="mb-3">
+	{% with st=st1, groupe="1" %} {% include
+	'components/statistical_distr_table.html' %} {% endwith %} {% with st=st2,
+	groupe="2" %} {% include 'components/statistical_distr_table.html' %} {%
+	endwith %}
+
+	<h2>Групове середнє 1</h2>
+	<h5>
+		\[ \bar{x}_{1}= \frac{1}{n} \sum\limits_{i=1}^{k}{x_{i} n_{i}} =
+		{{ mean1 }} \]
+	</h5>
+
+	<h2>Групове середнє 2</h2>
+	<h5>
+		\[ \bar{x}_{2}= \frac{1}{n} \sum\limits_{i=1}^{k}{x_{i} n_{i}} =
+		{{ mean2 }} \]
+	</h5>
+
+	<h2>Загальне групове середнє</h2>
+	<h5>\[ \bar{x} = {{ common_mean }} \]</h5>
+
+	<h2>Групова дисперсія 1</h2>
+	<h5>
+		\[ D_{1гр} = \frac{1}{n}\sum\limits_{i=1}^{k}{n_{i}(x_{i}-\bar{x}_{в})^{2}}=
+		{{ pvariance1 }} \]
+	</h5>
+
+	<h2>Групова дисперсія 2</h2>
+	<h5>
+		\[ D_{2гр} = \frac{1}{n}\sum\limits_{i=1}^{k}{n_{i}(x_{i}-\bar{x}_{в})^{2}}=
+		{{ pvariance2 }} \]
+	</h5>
+
+	<h2>Внутрішньогрупова дисперсія</h2>
+	<h5>\[ D_{внгр} = \frac{1}{n}\sum N_{j} D_{jгр}= {{ inner_variance }} \]</h5>
+
+	<h2>Міжгрупова дисперсія</h2>
+	<h5>
+		\[ D_{міжгр} = \frac{1}{n}\sum N_{j} (\bar{x}_{j} - \bar{x})^{2}=
+		{{ intergroup_variance }} \]
+	</h5>
+
+	<h2>Загальна дисперсія</h2>
+	<h5>
+		\[ D_{заг} = \frac{1}{n}\sum n_{j} (\bar{x}_{j} - \bar{x})^{2}=
+		{{ common_variance }} \]
+	</h5>
+</div>
+{% endblock %}
