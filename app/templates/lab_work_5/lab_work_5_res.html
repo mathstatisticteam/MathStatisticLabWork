@@ -1,0 +1,153 @@
+{% extends "layout.html" %} 
+{% block page_css_js %}
+<style>
+	.MathJax_Display {
+		margin: 0 !important;
+	} 
+</style>
+<script
+	type="module"
+	src="{{ url_for('static', filename='js/page-scripts/lab_work_5.js')}}"
+></script>
+{% endblock %} 
+{% block title %} Lab work 5 {% endblock %}
+{% block content %}
+<form id="input_form" action="{{ action_url }}" method="post">
+	<input name="x" type="number" v-model="x" placeholder="x=" />
+	<input name="y" type="number" v-model="y" placeholder="y=" />
+	<div class="container mt-2 text-center">
+		<table class="table table-borderless table-responsive w-100">
+			<tbody>
+				<tr v-for="(n, i) in parseInt(x)">
+					<td class="p-0" v-for="(n, j) in parseInt(y)">
+						<input
+							:name="`${i}x${j}`"
+							class="form-control"
+							:placeholder="i==0 && j==0 ? 'x \\ y' : ''"
+							:disabled="i==0 && j==0"
+							type="text"
+							style="width: 70px;"
+						/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="col-auto my-1">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</div>
+</form>
+<div class="my-5">
+
+	<table class="table table-responsive w-100">
+		<tbody class="w-100">
+			{% for i in range(0, x|length+2) %}
+			<tr>
+				{% for j in range(0, y|length+2) %}
+					{% if i==0 and j==0 %}
+						<td>x \ y</td>
+					{% elif i==x|length+1 and j==y|length+1 %}
+						<td><i>n</i>={{sum_n}}</td>
+					{% elif i==0 and j==y|length+1 %}
+						<td>n<sub>x</sub></td>
+					{% elif i==x|length+1 and j==0 %}
+						<td>n<sub>y</sub></td>
+					{% elif i==0 %}
+						<td>{{y[j-1]}}</td>
+					{% elif j==0 %}
+						<td>{{x[i-1]}}</td>
+					{% elif i==x|length+1 %}
+						<td>{{sum_cols[j-1]}}</td>
+					{% elif j==y|length+1 %}
+						<td>{{sum_rows[i-1]}}</td>
+					{% else %}
+						{% if matrix[i-1][j-1] != 0 %}
+							<td>{{matrix[i-1][j-1]}}</td>
+						{%else%}
+							<td></td>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<h2 class="text-center">Статистичні розподіли</h2>
+	<table class="table table-responsive w-100">
+		<tbody class="w-100">
+			<tr>
+				<th scope="row">X<sub>i</sub></th>
+				{% for item in x %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<th scope="row">n<sub>x</sub></th>
+				{% for item in sum_rows %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-responsive w-100">
+		<tbody class="w-100">
+			<tr>
+				<th scope="row">Y<sub>i</sub></th>
+				{% for item in y %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<th scope="row">n<sub>y</sub></th>
+				{% for item in sum_cols %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+
+	<h2 class="text-center">Середні <i>x</i> для <i>y</i> i <i>y</i> для <i>x</i></h2>
+	<table class="table table-responsive w-100">
+		<tbody class="w-100">
+			<tr>
+				<th scope="row">X</th>
+				{% for item in x %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<th scope="row">\[ \bar{y}_{x} \]</th>
+				{% for item in averages_y_for_x %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-responsive w-100">
+		<tbody class="w-100">
+			<tr>
+				<th scope="row">Y</th>
+				{% for item in y %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<th scope="row">\[ \bar{x}_{y} \]</th>
+				{% for item in averages_x_for_y %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+
+	<h2 class="text-center">Вибіркові середні</h2>
+	<h5>
+		\[ \bar{x} = \frac{1}{n} \sum n_{x} \cdot x_{i} = {{selective_averages_x}} \]
+	</h5>
+	<h5>
+		\[ \bar{y} = \frac{1}{n} \sum n_{y} \cdot y_{i} = {{selective_averages_y}} \]
+	</h5>
+
+</div>
+{% endblock %}

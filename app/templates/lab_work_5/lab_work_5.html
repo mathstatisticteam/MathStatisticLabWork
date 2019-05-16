@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block page_css_js %}
+	<script 
+		type="module"
+		src="{{ url_for('static', filename='js/page-scripts/lab_work_5.js')}}"
+	></script>
+{% endblock %} 
+{% block title %} Lab work 5 {% endblock %} 
+{% block content %}
+<form id="input_form" action="{{ action_url }}" method="post">
+	<input name="x" type="number" v-model="x" placeholder="x=">
+	<input name="y" type="number" v-model="y" placeholder="y=">
+	<div class="container mt-2 text-center">
+		<table class="table table-borderless table-responsive w-100">
+			<tbody>
+				<tr v-for="(n, i) in parseInt(x)">
+					<td class="p-0" v-for="(n, j) in parseInt(y)">
+						<input 
+							:name=`${i}x${j}`
+							class="form-control"
+							:placeholder="i==0 && j==0 ? 'x \\ y' : ''"
+							:disabled="i==0 && j==0"
+							type="text" 
+							style="width: 70px;"
+						>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="col-auto my-1">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</div>
+</form>
+{% endblock %}

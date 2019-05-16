@@ -6,6 +6,7 @@
     "chdir",
     "crossorigin",
     "describedby",
+    "dtype",
     "endblock",
     "gunicorn",
     "numpy",
@@ -15,4 +16,7 @@
     "yaxis"
   ],
   "python.pythonPath": "env\\Scripts\\python.exe",
+  "[html]": {
+    "editor.formatOnSave": false
+  }
 }
