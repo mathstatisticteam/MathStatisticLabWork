@@ -85,3 +85,47 @@ def get_figure(x, y, x_axis_label, y_axis_label):
     fig.yaxis.fixed_location = 0
 
     return fig
+
+
+def get_reg_line_figure(x, y, x2, y2, x_axis_label, y_axis_label):
+    source = ColumnDataSource(data=dict(x=x, y=y))
+    source2 = ColumnDataSource(data=dict(x=x2, y=y2))
+
+    fig = figure(
+        height=600,
+        sizing_mode='stretch_width',
+        x_axis_label=x_axis_label,
+        y_axis_label=y_axis_label
+    )
+    labels = LabelSet(
+        x='x',
+        y='y',
+        text='y',
+        level='glyph',
+        x_offset=-15,
+        y_offset=8,
+        source=source,
+        render_mode='canvas',
+        text_font_size="8pt"
+    )
+    fig.add_layout(labels)
+    fig.line(x='x', y='y', line_color="red", source=source2, line_width=2)
+    fig.circle(
+        x='x',
+        y='y',
+        fill_color="blue",
+        line_color="blue",
+        size=8,
+        source=source
+    )
+    fig.circle(
+        x='x',
+        y='y',
+        fill_color="red",
+        line_color="red",
+        size=8,
+        source=source2
+    )
+    fig.yaxis.fixed_location = 0
+
+    return fig

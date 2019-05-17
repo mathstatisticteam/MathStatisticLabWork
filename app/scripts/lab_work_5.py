@@ -8,7 +8,7 @@ from bokeh.embed import components
 from flask import redirect, render_template, request, url_for
 
 from app import app
-from app.scripts.helpers import to_int_if_can, get_figure
+from app.scripts.helpers import to_int_if_can, get_figure, get_reg_line_figure
 
 
 def get_selective_averages(axis_arr, sum_arr, N, n=1):
@@ -93,20 +93,13 @@ def lab_work_5_post():
                 continue
             sum_nxy_x_y += v * y[index] * x[i]
 
-    selective_correlation_coefficient = (
-        sum_nxy_x_y - sum_n *
-        selective_averages_x *
-        selective_averages_y
-    ) / (
-        sum_n *
-        sigma_x *
-        sigma_y
-    )
+    a = sum_nxy_x_y - sum_n * selective_averages_x * selective_averages_y
+    b = sum_n * sigma_x * sigma_y
+
+    selective_correlation_coefficient = a/b
 
     f_x_1 = selective_correlation_coefficient * sigma_y / sigma_x
-    # f_x_1 = selective_correlation_coefficient * sigma_x / sigma_y
     f_x_2 = selective_averages_y + ((selective_averages_x * -1) * f_x_1)
-    # f_x_2 = selective_averages_x + (selective_averages_y * f_x_1)
 
     distr_conditional_averages_x = []
     distr_conditional_averages_y = []
@@ -126,13 +119,19 @@ def lab_work_5_post():
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
-    fig = get_figure(x, averages_y_for_x, 'x', 'y')
+    fig = get_reg_line_figure(
+        x,
+        averages_y_for_x,
+        [e['x'] for e in distr_conditional_averages_x],
+        [e['y'] for e in distr_conditional_averages_x],
+        'x', 'y'
+    )
     plot_1 = {}
     plot_1['script'], plot_1['div'] = components(fig)
 
-    fig2 = get_figure(y, averages_x_for_y, 'x', 'y')
-    plot_2 = {}
-    plot_2['script'], plot_2['div'] = components(fig2)
+    # fig2 = get_figure(y, averages_x_for_y, 'x', 'y')
+    # plot_2 = {}
+    # plot_2['script'], plot_2['div'] = components(fig2)
 
     html = render_template(
         'lab_work_5/lab_work_5_res.html',
@@ -140,7 +139,6 @@ def lab_work_5_post():
         js_resources=js_resources,
         css_resources=css_resources,
         plot_1=plot_1,
-        plot_2=plot_2,
         x=x,
         y=y,
         matrix=matrix,
