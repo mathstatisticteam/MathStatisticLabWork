@@ -1,49 +1,61 @@
-{% extends "layout.html" %} {% block page_css_js %} {% endblock %} {% block
-title %} Lab work 4 {% endblock %} {% block content %} {% include
-'components/input_form.html' %}
-<div class="form-row">
-	<div class="col-6 my-1">
-		<textarea
-			autocomplete="off"
-			name="items2"
-			form="input_form"
-			class="form-control"
-			rows="1"
-		></textarea>
+{% extends "layout.html" %} 
+{% block page_css_js %}
+	<script 
+		type="module"
+		src="{{ url_for('static', filename='js/page-scripts/lab_work_4.js')}}"
+	></script>
+{% endblock %} 
+{% block title %} Lab work 4 {% endblock %} 
+{% block content %}
+<div id="lab_work_4">
+	<input 
+		form="input_form" 
+		name="groupeCnt"
+		type="number" 
+		v-model="groupeCnt" 
+		placeholder="y=" 
+	/>
+	{% with n='0' %} 
+	{% include 'components/input_form.html' %}
+	{% endwith %} 
+	<div v-for="i in parseInt(groupeCnt)-1" class="form-row">
+		<div class="col-6 my-1">
+			<textarea
+				autocomplete="off"
+				:name="'items'+i"
+				form="input_form"
+				class="form-control"
+				rows="1"
+			></textarea>
+		</div>
 	</div>
 </div>
+
 <div class="mb-3">
-	{% with st=st1, groupe="1" %} {% include
-	'components/statistical_distr_table.html' %} {% endwith %} {% with st=st2,
-	groupe="2" %} {% include 'components/statistical_distr_table.html' %} {%
-	endwith %}
+	{% for data in groups_data %}
+		{% with st=data['st'], groupe=data['index'] %} 
+			{% include 'components/statistical_distr_table.html' %} 
+		{% endwith %}
+	{% endfor %}
 
-	<h2>Групове середнє 1</h2>
-	<h5>
-		\[ \bar{x}_{1}= \frac{1}{n} \sum\limits_{i=1}^{k}{x_{i} n_{i}} =
-		{{ mean1 }} \]
-	</h5>
-
-	<h2>Групове середнє 2</h2>
-	<h5>
-		\[ \bar{x}_{2}= \frac{1}{n} \sum\limits_{i=1}^{k}{x_{i} n_{i}} =
-		{{ mean2 }} \]
-	</h5>
+	{% for data in groups_data %}
+		<h2>Групове середнє {{ data['index'] }}</h2>
+		<h5>
+			\[ \bar{x}_{ {{ data['index'] }} }= \frac{1}{n} \sum\limits_{i=1}^{k}{x_{i} n_{i}} =
+			{{ data['mean'] }} \]
+		</h5>
+	{% endfor %}
 
 	<h2>Загальне групове середнє</h2>
 	<h5>\[ \bar{x} = {{ common_mean }} \]</h5>
 
-	<h2>Групова дисперсія 1</h2>
-	<h5>
-		\[ D_{1гр} = \frac{1}{n}\sum\limits_{i=1}^{k}{n_{i}(x_{i}-\bar{x}_{в})^{2}}=
-		{{ pvariance1 }} \]
-	</h5>
-
-	<h2>Групова дисперсія 2</h2>
-	<h5>
-		\[ D_{2гр} = \frac{1}{n}\sum\limits_{i=1}^{k}{n_{i}(x_{i}-\bar{x}_{в})^{2}}=
-		{{ pvariance2 }} \]
-	</h5>
+	{% for data in groups_data %}
+		<h2>Групова дисперсія {{data['index']}}</h2>
+		<h5>
+			\[ D_{ {{data['index']}}гр } = \frac{1}{n}\sum\limits_{i=1}^{k}{n_{i}(x_{i}-\bar{x}_{в})^{2}}=
+			{{ data['pvariance'] }} \]
+		</h5>
+	{% endfor %}
 
 	<h2>Внутрішньогрупова дисперсія</h2>
 	<h5>\[ D_{внгр} = \frac{1}{n}\sum N_{j} D_{jгр}= {{ inner_variance }} \]</h5>

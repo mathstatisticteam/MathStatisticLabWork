@@ -110,6 +110,7 @@ def get_reg_line_figure(x, y, x2, y2, x_axis_label, y_axis_label):
     )
     fig.add_layout(labels)
     fig.line(x='x', y='y', line_color="red", source=source2, line_width=2)
+    fig.line(x='x', y='y', line_color="blue", source=source, line_width=2)
     fig.circle(
         x='x',
         y='y',
