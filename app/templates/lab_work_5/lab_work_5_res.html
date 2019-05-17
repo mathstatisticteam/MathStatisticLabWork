@@ -1,5 +1,9 @@
 {% extends "layout.html" %} 
 {% block page_css_js %}
+{{ js_resources|indent(4)|safe }}
+{{ css_resources|indent(4)|safe }}
+{{ plot_1.script|indent(4)|safe }}
+{{ plot_2.script|indent(4)|safe }}
 <style>
 	.MathJax_Display {
 		margin: 0 !important;
@@ -148,6 +152,46 @@
 	<h5>
 		\[ \bar{y} = \frac{1}{n} \sum n_{y} \cdot y_{i} = {{selective_averages_y}} \]
 	</h5>
+
+	<h2 class="text-center">Вибіркові середньоквадратичні відхиленя</h2>
+	<h5>
+		\[ \sigma_{x} = \sqrt{\bar{x^{2}} - (\bar{x})^{2}} = {{sigma_x}} \]
+	</h5>
+	<h5>
+		\[ \sigma_{y} = \sqrt{\bar{y^{2}} - (\bar{y})^{2}} = {{sigma_y}} \]
+	</h5>
+
+	<h2 class="text-center">Вибіркові середньоквадратичні відхиленя</h2>
+	<h5>
+		\[ r_{в}=\frac{(\sum{n_{xy}\cdot xy}) - n \cdot \bar{x} \cdot \bar{y}}
+			{n \cdot \sigma_{x}\cdot \sigma_{y}} = {{selective_correlation_coefficient}} \]
+	</h5>
+
+	<h2 class="text-center">Вибіркове рівняння лінії регресії</h2>
+	<h5>
+		\[ \bar{y}_{x} = r_{в} \frac{\sigma_{y}}{\sigma_{x}} (x - \bar{x}) + \bar{y}  \]
+	</h5>
+	<h5>
+		\[ \bar{y}_{x} = {{f_x_1}}x + {{f_x_2}} \]
+	</h5>
+
+	<h2 class="text-center">Розподіли умовних середніх <i>y</i></h2>
+	{% for item in distr_conditional_averages_x %}	
+	<h5>
+		\[ \bar{y}_{ {{item['x']}} } = {{item['y']}} \]
+	</h5>
+	{% endfor %}
+
+	<!-- <h2 class="text-center">Розподіли умовних середніх <i>x</i></h2>
+	{% for item in distr_conditional_averages_y %}	
+	<h5>
+		\[ \bar{x}_{ {{item['y']}} } = {{item['x']}} \]
+	</h5>
+	{% endfor %} -->
+
+	<h2 class="text-center">Емпірична ламана регресії</h2>
+  {{ plot_1.div|indent(4)|safe }}
+  {{ plot_2.div|indent(4)|safe }}
 
 </div>
 {% endblock %}
