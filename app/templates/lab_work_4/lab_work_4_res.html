@@ -7,15 +7,16 @@
 {% endblock %} 
 {% block title %} Lab work 4 {% endblock %} 
 {% block content %}
+{% include 'components/explanation_blok.html' %}
 <div id="lab_work_4">
-	<input 
+	Кількість груп = <input 
 		form="input_form" 
 		name="groupeCnt"
 		type="number" 
 		v-model="groupeCnt" 
 		placeholder="y=" 
 	/>
-	{% with n='0' %} 
+	{% with n='0' %}
 	{% include 'components/input_form.html' %}
 	{% endwith %} 
 	<div v-for="i in parseInt(groupeCnt)-1" class="form-row">
@@ -25,6 +26,7 @@
 				:name="'items'+i"
 				form="input_form"
 				class="form-control"
+				placeholder="Example 1 1 1 1 2 2 3 or 1:4 2:3"
 				rows="1"
 			></textarea>
 		</div>

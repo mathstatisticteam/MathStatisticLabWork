@@ -7,8 +7,9 @@
 {% endblock %} 
 {% block title %} Lab work 4 {% endblock %} 
 {% block content %}
+{% include 'components/explanation_blok.html' %}
 <div id="lab_work_4">
-	<input 
+	Кількість груп = <input 
 		form="input_form" 
 		name="groupeCnt"
 		type="number" 
@@ -25,6 +26,7 @@
 				:name="'items'+i"
 				form="input_form"
 				class="form-control"
+				placeholder="Example 1 1 1 1 2 2 3 or 1:4 2:3"
 				rows="1"
 			></textarea>
 		</div>
