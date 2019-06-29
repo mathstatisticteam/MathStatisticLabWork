@@ -16,12 +16,14 @@ def get_input_data(field_name = 'items'):
         'semicolon': ';'
     }.get(request.form['separator'])
 
+    input_data = request.form[field_name].strip(' ')
+
     if input_type == 'some_data':
         items = list(
-            map(to_int_if_can, request.form[field_name].split(separator))
+            map(to_int_if_can, input_data.split(separator))
         )
     elif input_type == 'stat_distr':
-        data = request.form[field_name].strip(' ').split(separator)
+        data = input_data.split(separator)
         items = sum([
             [k for x in range(v)] for k, v in {
                 to_int_if_can(x.split(':')[0]): int(x.split(':')[1]) for x in data
